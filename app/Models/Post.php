@@ -13,6 +13,9 @@ class Post extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const PAGINATE_FE = 12;
+    public const PAGINATE_BE = 24;
+
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
