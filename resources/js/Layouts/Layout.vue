@@ -8,6 +8,11 @@ import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 const showingNavigationDropdown = ref(false);
+
+defineProps({
+  canLogin: Boolean,
+  canRegister: Boolean,
+});
 </script>
 
 <template>
@@ -36,7 +41,10 @@ const showingNavigationDropdown = ref(false);
               </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div
+              class="hidden sm:flex sm:items-center sm:ml-6"
+              v-if="$page.props.auth.user"
+            >
               <!-- Settings Dropdown -->
               <div class="ml-3 relative">
                 <BreezeDropdown align="right" width="48">
@@ -64,7 +72,7 @@ const showingNavigationDropdown = ref(false);
                     </span>
                   </template>
 
-                  <template #content>
+                  <template #content v-if="$page.props.auth.user">
                     <BreezeDropdownLink
                       :href="route('logout')"
                       method="post"
@@ -74,6 +82,28 @@ const showingNavigationDropdown = ref(false);
                     </BreezeDropdownLink>
                   </template>
                 </BreezeDropdown>
+              </div>
+            </div>
+
+            <div v-else class="hidden sm:flex sm:items-center sm:ml-6">
+              <!-- Settings Dropdown -->
+              <div class="ml-3 relative">
+                <BreezeNavLink
+                  :href="route('login')"
+                  :active="route().current('login')"
+                >
+                  Log in
+                </BreezeNavLink>
+              </div>
+
+              <div class="ml-3 relative">
+                <BreezeNavLink
+                  v-if="canRegister"
+                  :href="route('register')"
+                  :active="route().current('register')"
+                >
+                  Register
+                </BreezeNavLink>
               </div>
             </div>
 
@@ -125,15 +155,18 @@ const showingNavigationDropdown = ref(false);
         >
           <div class="pt-2 pb-3 space-y-1">
             <BreezeResponsiveNavLink
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
+              :href="route('posts.index')"
+              :active="route().current('posts.index')"
             >
-              Dashboard
+              Posts
             </BreezeResponsiveNavLink>
           </div>
 
           <!-- Responsive Settings Options -->
-          <div class="pt-4 pb-1 border-t border-gray-200">
+          <div
+            class="pt-4 pb-1 border-t border-gray-200"
+            v-if="$page.props.auth.user"
+          >
             <div class="px-4">
               <div class="font-medium text-base text-gray-800">
                 {{ $page.props.auth.user.name }}
@@ -152,6 +185,22 @@ const showingNavigationDropdown = ref(false);
                 Log Out
               </BreezeResponsiveNavLink>
             </div>
+          </div>
+          <div v-else>
+            <Link
+              :href="route('login')"
+              class="text-sm text-gray-700 underline"
+            >
+              Log in
+            </Link>
+
+            <Link
+              v-if="canRegister"
+              :href="route('register')"
+              class="ml-4 text-sm text-gray-700 underline"
+            >
+              Register
+            </Link>
           </div>
         </div>
       </nav>

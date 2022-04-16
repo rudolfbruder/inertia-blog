@@ -24,6 +24,8 @@ class PostFactory extends Factory
             'user_id' => User::inRandomOrder()->value('id'),
             'category_id' => Category::inRandomOrder()->value('id'),
             'published_at' => $this->faker->dateTimeBetween(now()->subYear(), now()),
+            'image_path' => 'https://source.unsplash.com/random',
+            'summary' => $this->faker->realTextBetween(20, 200)
         ];
     }
 }
