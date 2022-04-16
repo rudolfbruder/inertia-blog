@@ -12,12 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('blog_tags', function (Blueprint $table) {
+        Schema::create('post_tags', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('blog_id')->references('id')->on('blogs');
+            $table->foreignId('post_id')->references('id')->on('posts');
             $table->foreignId('tag_id')->references('id')->on('tags');
             //For searching based on tag id speed increase
-            $table->index(['tag_id', 'blog_id']);
+            $table->index(['tag_id', 'post_id']);
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('blog_tags');
+        Schema::dropIfExists('post_tags');
     }
 };
