@@ -15,4 +15,13 @@ class PostController extends Controller
             'categories' => Category::inRandomOrder()->take(10)->get()
         ]);
     }
+
+    public function show(Post $post)
+    {
+        $post->load('tags', 'category');
+
+        return Inertia::render('Post/Show', [
+            'post' => $post
+        ]);
+    }
 }

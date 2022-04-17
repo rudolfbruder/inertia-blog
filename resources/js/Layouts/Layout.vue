@@ -25,7 +25,7 @@ defineProps({
             <div class="flex">
               <!-- Logo -->
               <div class="shrink-0 flex items-center">
-                <Link :href="route('dashboard')">
+                <Link :href="route('posts.index')">
                   <BreezeApplicationLogo class="block h-9 w-auto" />
                 </Link>
               </div>
@@ -213,7 +213,7 @@ defineProps({
       </header>
 
       <!-- Page Content -->
-      <main class="px-5 mt-3">
+      <main class="px-5 mt-5 pb-5">
         <slot />
       </main>
     </div>
