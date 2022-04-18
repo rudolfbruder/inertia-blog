@@ -38,6 +38,6 @@ class PostDatabaseRepository implements PostRepositoryInterface
 
     public function searchAllByTitle(string $input)
     {
-        return Post::where('title', 'like', '%' . $input . '%')->paginate(Post::PAGINATE_FE);
+        return Post::where('title', 'like', '%' . $input . '%')->with(['tags:id,title', 'category:id,title,slug'])->paginate(Post::PAGINATE_FE);
     }
 }
