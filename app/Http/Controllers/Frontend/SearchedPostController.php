@@ -18,6 +18,7 @@ class SearchedPostController extends Controller
     {
         return Inertia::render('Post/SearchResults', [
             'posts' => $this->postRepository->searchAllByTitle($input),
+            'input' => $input
         ]);
     }
 }

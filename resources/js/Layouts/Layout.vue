@@ -1,20 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
-import BreezeDropdown from "@/Components/Dropdown.vue";
-import BreezeDropdownLink from "@/Components/DropdownLink.vue";
-import BreezeNavLink from "@/Components/NavLink.vue";
-import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { Link } from "@inertiajs/inertia-vue3";
-
-const showingNavigationDropdown = ref(false);
-
-defineProps({
-  canLogin: Boolean,
-  canRegister: Boolean,
-});
-</script>
-
 <template>
   <div>
     <div class="min-h-screen bg-gray-100">
@@ -38,6 +21,19 @@ defineProps({
                 >
                   Posts
                 </BreezeNavLink>
+              </div>
+              <div class="hidden sm:ml-20 sm:flex py-2">
+                <BreezeInput
+                  id="search"
+                  type="text"
+                  class="mt-1 block w-full"
+                  v-model="search"
+                  @submit.prevent="redirectToSearch"
+                  @keypress.enter="redirectToSearch"
+                  placeholder="Search"
+                  autofocus
+                  autocomplete="search"
+                />
               </div>
             </div>
 
@@ -219,3 +215,45 @@ defineProps({
     </div>
   </div>
 </template>
+<script>
+import BreezeApplicationLogo from "@/Components/ApplicationLogo.vue";
+import BreezeDropdown from "@/Components/Dropdown.vue";
+import BreezeDropdownLink from "@/Components/DropdownLink.vue";
+import BreezeNavLink from "@/Components/NavLink.vue";
+import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import { Link } from "@inertiajs/inertia-vue3";
+import BreezeInput from "@/Components/Input.vue";
+import { Inertia } from "@inertiajs/inertia";
+
+export default {
+  props: {
+    canLogin: Boolean,
+    canRegister: Boolean,
+  },
+  data() {
+    return {
+      search: "",
+      showingNavigationDropdown: false,
+    };
+  },
+  methods: {
+    redirectToSearch() {
+      if (!this.search || this.search === "") {
+        return;
+      }
+      const searchInputTmp = this.search;
+      this.search = "";
+      Inertia.get("/posts/search-results/" + searchInputTmp);
+    },
+  },
+  components: {
+    BreezeApplicationLogo,
+    BreezeDropdown,
+    BreezeDropdownLink,
+    BreezeNavLink,
+    BreezeResponsiveNavLink,
+    Link,
+    BreezeInput,
+  },
+};
+</script>
