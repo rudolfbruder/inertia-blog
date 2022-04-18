@@ -21,4 +21,12 @@ class SearchedPostController extends Controller
             'input' => $input
         ]);
     }
+
+    public function searchByCategory(string $input)
+    {
+        return Inertia::render('Post/SearchResults', [
+            'posts' => $this->postRepository->searchAllByCategory($input),
+            'input' => $input
+        ]);
+    }
 }

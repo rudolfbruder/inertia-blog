@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex">
-    <div class="w-9/12">
+    <div class="md:w-9/12">
       <h2 class="heading-secondary">
         Newest Posts
       </h2>
