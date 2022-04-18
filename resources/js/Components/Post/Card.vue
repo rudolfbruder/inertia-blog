@@ -1,6 +1,6 @@
 <template>
   <Link
-    :href="route('posts.show', { post: post.slug })"
+    :href="route('posts.show', { slug: post.slug })"
     as="div"
     class="max-w-sm rounded overflow-hidden shadow-lg hover:bg-slate-100 cursor-pointer"
   >
@@ -8,7 +8,7 @@
     <div class="px-6 py-4">
       <div class="flex flex-col h-28 justify-between">
         <div class="font-bold text-xl mb-2">
-          <Link :href="route('posts.show', { post: post.slug })">{{
+          <Link :href="route('posts.show', { slug: post.slug })">{{
             post.title
           }}</Link>
         </div>

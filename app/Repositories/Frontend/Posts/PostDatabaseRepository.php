@@ -13,7 +13,7 @@ class PostDatabaseRepository implements PostRepositoryInterface
 
     public function findBySlug(string $slug): Post
     {
-        return Post::whereSlug($slug)->first();
+        return Post::whereSlug($slug)->with(['tags:id,title', 'category:id,title,slug'])->first();
     }
 
     public function getAll() : Collection
@@ -28,11 +28,11 @@ class PostDatabaseRepository implements PostRepositoryInterface
 
     public function getAllActiveAndPublished()  : Collection
     {
-        return Post::active()->published()->get();
+        return Post::active()->published()->with('tags:id,title', 'category:id,title,slug')->get();
     }
 
     public function getAllActiveAndPublishedPaginated()
     {
-        return Post::active()->published()->paginate(Post::PAGINATE_FE);
+        return Post::active()->published()->with('tags:id,title', 'category:id,title,slug')->paginate(Post::PAGINATE_FE);
     }
 }
