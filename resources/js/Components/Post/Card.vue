@@ -1,16 +1,22 @@
+<script setup>
+import { Link } from "@inertiajs/inertia-vue3";
+import Category from "@/Components/Post/Category.vue";
+
+defineProps({
+  post: Object,
+});
+</script>
 <template>
   <Link
-    :href="route('posts.show', { post: post.slug })"
+    :href="route('posts.show', { slug: post.slug })"
     as="div"
     class="max-w-sm rounded overflow-hidden shadow-lg hover:bg-slate-100 cursor-pointer"
   >
-    <!-- <img class="w-full" :src="post.image_path" alt="Sunset in the mountains" /> -->
+    <img class="w-full" :src="post.image_path" alt="Sunset in the mountains" />
     <div class="px-6 py-4">
       <div class="flex flex-col h-28 justify-between">
         <div class="font-bold text-xl mb-2">
-          <Link :href="route('posts.show', { post: post.slug })">{{
-            post.title
-          }}</Link>
+          <h3>{{ post.title }}</h3>
         </div>
         <category :category="post.category" />
       </div>
@@ -28,21 +34,3 @@
     </div>
   </Link>
 </template>
-
-<script>
-import { Link } from "@inertiajs/inertia-vue3";
-import Category from "@/Components/Post/Category.vue";
-
-export default {
-  name: "post-card",
-  props: {
-    post: Object,
-  },
-  components: {
-    Link,
-    Category,
-  },
-};
-</script>
-
-<style lang="scss" scoped></style>
