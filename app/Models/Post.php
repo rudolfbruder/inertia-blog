@@ -13,6 +13,9 @@ class Post extends Model
     use HasSlug;
     use SoftDeletes;
 
+    public const PAGINATE_FE = 6;
+    public const PAGINATE_BE = 24;
+
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
@@ -33,7 +36,7 @@ class Post extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()

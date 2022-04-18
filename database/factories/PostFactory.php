@@ -17,13 +17,22 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $title = $this->faker->catchPhrase();
+        $paragraphs = $this->faker->paragraphs(rand(2, 20));
+        $post = "<h1>{$title}</h1>";
+        foreach ($paragraphs as $para) {
+            $post .= "<p>{$para}</p><br>";
+        }
+
         return [
             'title' => $this->faker->catchPhrase(),
-            'content' => $this->faker->realTextBetween(100, 10000),
+            'content' => $post,
             'active' => $this->faker->boolean(),
             'user_id' => User::inRandomOrder()->value('id'),
             'category_id' => Category::inRandomOrder()->value('id'),
             'published_at' => $this->faker->dateTimeBetween(now()->subYear(), now()),
+            'image_path' => 'https://source.unsplash.com/random',
+            'summary' => $this->faker->realTextBetween(20, 200)
         ];
     }
 }

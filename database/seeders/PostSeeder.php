@@ -13,6 +13,6 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory()->count(200)->hasTags(rand(1, 5))->create();
+        Post::factory()->count(200)->hasTags(3)->create();
     }
 }
