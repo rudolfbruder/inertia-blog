@@ -17,4 +17,8 @@ interface PostRepositoryInterface
     public function getAllActiveAndPublished()  : Collection;
 
     public function getAllActiveAndPublishedPaginated();
+
+    public function searchAllByTitle(string $input);
+
+    public function searchAllByCategory(string $input);
 }
