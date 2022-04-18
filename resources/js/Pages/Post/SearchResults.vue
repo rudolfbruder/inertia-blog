@@ -5,12 +5,16 @@
       <div class="grid grid-cols-3 gap-3">
         <card :post="post" v-for="post in posts.data" :key="post.id" />
       </div>
+      <div class="flex justify-center mt-3">
+        <pagination :links="posts.links" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import card from "@/components/Post/Card";
+import Pagination from "@/Components/Pagination";
 
 export default {
   props: {
@@ -19,6 +23,7 @@ export default {
   },
   components: {
     card,
+    Pagination,
   },
 };
 </script>

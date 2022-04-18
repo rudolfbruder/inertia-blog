@@ -7,6 +7,9 @@
       <div class="grid grid-cols-3 gap-3">
         <card :post="post" v-for="post in posts.data" :key="post.id" />
       </div>
+      <div class="flex justify-center mt-3">
+        <pagination :links="posts.links" />
+      </div>
     </div>
     <div class="w-3/12">
       <div class="px-3">
@@ -25,6 +28,8 @@
 import card from "@/components/Post/Card";
 import Layout from "@/Layouts/Layout.vue";
 import Category from "@/Components/Post/Category.vue";
+import Pagination from "@/Components/Pagination";
+
 export default {
   props: {
     posts: Object,
@@ -33,6 +38,7 @@ export default {
   components: {
     card,
     Category,
+    Pagination,
   },
   layout: Layout,
 };
