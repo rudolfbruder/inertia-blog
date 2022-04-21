@@ -4,18 +4,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use JeroenG\Explorer\Application\Explored;
 
-class Post extends Model
+class Post extends Model implements
+    Explored
+
+// class Post extends Model
 {
     use HasFactory;
     use HasSlug;
     use SoftDeletes;
+    use Searchable;
 
     public const PAGINATE_FE = 6;
     public const PAGINATE_BE = 24;
 
+    //Packages setup
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
@@ -26,6 +33,42 @@ class Post extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function searchableAs()
+    {
+        return 'posts_index';
+    }
+
+    // protected function makeAllSearchableUsing($query)
+    // {
+    //     return $query->with('category');
+    // }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'summary' => $this->summary,
+            'category' => [
+                'id' => $this->category->id,
+                'title' => $this->category->title,
+            ],
+        ];
+    }
+
+    public function mappableAs(): array
+    {
+        return [
+            'id' => 'keyword',
+            'title' => 'text',
+            'summary' => 'text',
+            'category' => [
+                'id' => 'keyword',
+                'title' => 'text'
+            ]
+        ];
     }
 
     //Relationships
