@@ -8,9 +8,14 @@ use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use JeroenG\Explorer\Application\Explored;
+use JeroenG\Explorer\Application\IndexSettings;
+use JeroenG\Explorer\Domain\Analysis\Analysis;
+use JeroenG\Explorer\Domain\Analysis\Analyzer\StandardAnalyzer;
+use JeroenG\Explorer\Domain\Analysis\Filter\SynonymFilter;
 
 class Post extends Model implements
-    Explored
+    Explored,
+    IndexSettings
 
 // class Post extends Model
 {
@@ -44,6 +49,17 @@ class Post extends Model implements
     // {
     //     return $query->with('category');
     // }
+    public function mappableAs(): array
+    {
+        return [
+            'id' => 'keyword',
+            'title' => 'text',
+            'summary' => 'text',
+            'category' => [
+                'type' => 'nested'
+            ],
+        ];
+    }
 
     public function toSearchableArray(): array
     {
@@ -52,22 +68,8 @@ class Post extends Model implements
             'title' => $this->title,
             'summary' => $this->summary,
             'category' => [
-                'id' => $this->category->id,
-                'title' => $this->category->title,
+                'name' => $this->category->title,
             ],
-        ];
-    }
-
-    public function mappableAs(): array
-    {
-        return [
-            'id' => 'keyword',
-            'title' => 'text',
-            'summary' => 'text',
-            'category' => [
-                'id' => 'keyword',
-                'title' => 'text'
-            ]
         ];
     }
 
@@ -107,5 +109,19 @@ class Post extends Model implements
     public function isActive() : bool
     {
         return !!$this->active;
+    }
+
+    public function indexSettings(): array
+    {
+        $synonymFilter = new SynonymFilter();
+        $synonymFilter->setSynonyms(['mona lisa => leonardo']);
+
+        $synonymAnalyzer = new StandardAnalyzer('synonym');
+        $synonymAnalyzer->setFilters(['lowercase', $synonymFilter]);
+
+        return (new Analysis())
+            ->addAnalyzer($synonymAnalyzer)
+            ->addFilter($synonymFilter)
+            ->build();
     }
 }
