@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use App\Repositories\Frontend\Posts\PostDatabaseRepository;
+use App\Repositories\Frontend\Posts\PostElasticRepository;
 use App\Repositories\Frontend\Posts\PostRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,10 +18,10 @@ class PostRepositoryServiceProvider extends ServiceProvider
         app()->bind(PostRepositoryInterface::class, function () {
             switch (config('repositories.posts')) {
                 case 'database':
-                   return new PostDatabaseRepository();
+                    return new PostDatabaseRepository();
                     break;
-                    case 'elastic':
-                        // return new PostElasticRepository();
+                case 'elastic':
+                    return new PostElasticRepository();
                          break;
                 default:
                    return new PostDatabaseRepository();
