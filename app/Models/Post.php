@@ -8,16 +8,8 @@ use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use JeroenG\Explorer\Application\Explored;
-use JeroenG\Explorer\Application\IndexSettings;
-use JeroenG\Explorer\Domain\Analysis\Analysis;
-use JeroenG\Explorer\Domain\Analysis\Analyzer\StandardAnalyzer;
-use JeroenG\Explorer\Domain\Analysis\Filter\SynonymFilter;
 
-class Post extends Model implements
-    Explored,
-    IndexSettings
-
-// class Post extends Model
+class Post extends Model implements Explored
 {
     use HasFactory;
     use HasSlug;
@@ -45,10 +37,6 @@ class Post extends Model implements
         return 'posts_index';
     }
 
-    // protected function makeAllSearchableUsing($query)
-    // {
-    //     return $query->with('category');
-    // }
     public function mappableAs(): array
     {
         return [
@@ -109,19 +97,5 @@ class Post extends Model implements
     public function isActive() : bool
     {
         return !!$this->active;
-    }
-
-    public function indexSettings(): array
-    {
-        $synonymFilter = new SynonymFilter();
-        $synonymFilter->setSynonyms(['mona lisa => leonardo']);
-
-        $synonymAnalyzer = new StandardAnalyzer('synonym');
-        $synonymAnalyzer->setFilters(['lowercase', $synonymFilter]);
-
-        return (new Analysis())
-            ->addAnalyzer($synonymAnalyzer)
-            ->addFilter($synonymFilter)
-            ->build();
     }
 }
