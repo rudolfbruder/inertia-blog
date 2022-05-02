@@ -7,10 +7,11 @@
           <div class="flex justify-between h-16">
             <div class="flex">
               <!-- Logo -->
-              <div class="shrink-0 flex items-center">
+              <div class="shrink-0 flex items-center flex-col">
                 <Link :href="route('posts.index')">
                   <BreezeApplicationLogo class="block h-9 w-auto" />
                 </Link>
+                <small class="text-gray-400">Driver: {{ postsDriver }}</small>
               </div>
 
               <!-- Navigation Links -->
@@ -229,6 +230,7 @@ export default {
   props: {
     canLogin: Boolean,
     canRegister: Boolean,
+    postsDriver: String,
   },
   data() {
     return {
