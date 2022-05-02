@@ -4,4 +4,6 @@
 - fill in .env
 - php artisan migrate --seed
 - link via valet or apache
+- if you have elastic search installed locally you can run php artisan scout:index posts_index and php artisan elastic:update
+- after that you can switch the driver used for returning post by search / category search - database / elastic
 - visit the site
